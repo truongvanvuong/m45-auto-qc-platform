@@ -475,7 +475,7 @@ export const App: React.FC = () => {
         points_count: 42,
         raw_points_count: 48,
         distance: Number(Math.sqrt(x * x + y * y + z * z).toFixed(2)),
-        quality_tier: "EASY_AUTO",
+        quality_tier: "EASY" as any,
         defect_type: "NONE",
         sotif_risk: "SAFE",
         confidence: 0.98,
@@ -745,7 +745,7 @@ export const App: React.FC = () => {
           flaggedCases={flaggedCases}
           onSelectCase={handleSelectCase}
           onUploadDataset={handleUploadDataset}
-          onAutoApproveEasy={handleExportReport}
+          onAutoApproveEasy={async () => { handleExportReport(); }}
           isApproving={isExporting || isApproving}
           onOpenWorkstationDirect={() => setCurrentView("WORKSTATION")}
           taskInfo={taskInfo}
