@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 20% 98%;      /* #f6f7f9 */
+    --foreground: 0 0% 13%;          /* #222222 */
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 13%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 13%;
+    --primary: 0 0% 17%;             /* #2c2c2c */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 0 0% 15%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 220 14% 94%;
+    --accent-foreground: 0 0% 15%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 0 0% 20%;
+    --radius: 1rem;
+  }
+
+  .dark {
+    --background: 222 47% 4%;        /* #060911 Workstation Dark Mode */
+    --foreground: 210 40% 98%;
+    --card: 222 35% 8%;              /* #0d131f */
+    --card-foreground: 210 40% 98%;
+    --popover: 222 35% 8%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222 47% 4%;
+    --secondary: 217 33% 15%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217 33% 15%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 217 33% 17%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217 33% 18%;
+    --input: 217 33% 18%;
+    --ring: 212 96% 78%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply font-sans antialiased text-[#222222] dark:text-neutral-100 bg-background;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+
+/* Custom Workstation Scrollbars */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(150, 150, 150, 0.2);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(150, 150, 150, 0.4);
+}

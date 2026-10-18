@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: m45-qc-backend
+    ports:
+      - "8088:8088"
+    environment:
+      - CVAT_URL=http://host.docker.internal:8080
+      - CVAT_PUBLIC_URL=http://localhost:8080
+      - CVAT_TASK_ID=16
+      - CVAT_TOKEN=${CVAT_TOKEN:-}
+      - CVAT_USERNAME=auto_annotator
+      - M45_FORCE_DEMO=0
+      - M45_PORT=8088
+      - M45_CORS_ORIGINS=http://localhost:3000,http://127.0.0.1:3000,http://localhost:8088
+    volumes:
+      - ./backend/app:/app/app
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8088/health')"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    restart: unless-stopped
+    networks:
+      - m45-net
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: m45-qc-frontend
+    ports:
+      - "3000:80"
+    environment:
+      - VITE_API_URL=
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1/nginx-health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    restart: unless-stopped
+    networks:
+      - m45-net
+
+networks:
+  m45-net:
+    driver: bridge
