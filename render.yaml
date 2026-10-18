@@ -1,8 +1,8 @@
 services:
-  # 1. Backend Service: FastAPI Python Web Service
+  # 1. Backend Service (FastAPI Python)
   - type: web
     name: m45-qc-backend
-    runtime: python
+    env: python
     rootDir: backend
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
@@ -16,19 +16,14 @@ services:
       - key: M45_FORCE_DEMO
         value: "0"
 
-  # 2. Frontend Service: React Vite Static Site
-  - type: static_site
+  # 2. Frontend Service (React Vite Static - KHÔNG để trường plan vì static mặc định free)
+  - type: web
     name: m45-qc-frontend
+    env: static
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
     autoDeploy: true
-    envVars:
-      - key: VITE_API_URL
-        fromService:
-          type: web
-          name: m45-qc-backend
-          property: host
     routes:
       - type: rewrite
         source: /*
