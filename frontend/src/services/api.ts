@@ -34,7 +34,20 @@ function getApiBase(): string {
   return 'http://localhost:8088';
 }
 
-const API_BASE = getApiBase();
+export const API_BASE = getApiBase();
+
+export function resolveImageUrl(url?: string): string | undefined {
+  if (!url) return undefined;
+  if (
+    url.startsWith("http://") ||
+    url.startsWith("https://") ||
+    url.startsWith("data:") ||
+    url.startsWith("blob:")
+  ) {
+    return url;
+  }
+  return `${API_BASE}${url.startsWith("/") ? "" : "/"}${url}`;
+}
 
 async function fetchWithTimeout(url: string, options: RequestInit = {}, timeoutMs = 3500): Promise<Response> {
   const controller = new AbortController();

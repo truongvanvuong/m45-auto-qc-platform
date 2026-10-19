@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CameraImageOverlay, BoundingBox3D } from "@/types/qc";
+import { resolveImageUrl } from "@/services/api";
 import {
   Camera,
   ZoomIn,
@@ -246,7 +247,7 @@ export const CameraSidebar: React.FC<CameraSidebarProps> = ({
                   {/* Real camera image from uploaded .zip or CVAT when available */}
                   {cam.image_url && (
                     <image
-                      href={cam.image_url}
+                      href={resolveImageUrl(cam.image_url)}
                       x="0"
                       y="0"
                       width="400"
@@ -485,7 +486,7 @@ export const CameraSidebar: React.FC<CameraSidebarProps> = ({
                 {/* High-res Camera Image */}
                 {expandedCam.image_url && (
                   <image
-                    href={expandedCam.image_url}
+                    href={resolveImageUrl(expandedCam.image_url)}
                     x="0"
                     y="0"
                     width="400"
