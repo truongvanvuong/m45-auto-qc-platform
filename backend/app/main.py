@@ -14,12 +14,22 @@ app = FastAPI(
 )
 
 # CORS configuration - Support local dev, custom origins and any Render domain
-origins_str = os.getenv("M45_CORS_ORIGINS", "*")
-origins = [o.strip() for o in origins_str.split(",") if o.strip()]
+origins_str = os.getenv("M45_CORS_ORIGINS", "")
+origins = [o.strip() for o in origins_str.split(",") if o.strip() and o.strip() != "*"]
+default_origins = [
+    "https://m45-qc-frontend.onrender.com",
+    "http://localhost:3000",
+    "http://localhost:8088",
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1:8088",
+]
+for d in default_origins:
+    if d not in origins:
+        origins.append(d)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins if origins and origins != ["*"] else ["*"],
+    allow_origins=origins,
     allow_origin_regex=r"https?://.*\.onrender\.com",
     allow_credentials=True,
     allow_methods=["*"],

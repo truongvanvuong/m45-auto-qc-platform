@@ -14,8 +14,27 @@ import {
   SyncApplyResponse
 } from '../types/qc';
 
-const envApiUrl = import.meta.env.VITE_API_URL;
-const API_BASE = envApiUrl !== undefined ? envApiUrl : (typeof window !== 'undefined' && window.location.port === '3000' ? '' : 'http://localhost:8088');
+function getApiBase(): string {
+  let url = import.meta.env.VITE_API_URL;
+  if (typeof url === 'string' && url.trim() !== '') {
+    url = url.trim();
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      url = `https://${url}`;
+    }
+    return url.replace(/\/+$/, '');
+  }
+  if (typeof window !== 'undefined') {
+    if (window.location.hostname.includes('onrender.com')) {
+      return 'https://m45-qc-backend.onrender.com';
+    }
+    if (window.location.port === '3000') {
+      return '';
+    }
+  }
+  return 'http://localhost:8088';
+}
+
+const API_BASE = getApiBase();
 
 async function fetchWithTimeout(url: string, options: RequestInit = {}, timeoutMs = 3500): Promise<Response> {
   const controller = new AbortController();

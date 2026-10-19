@@ -12,7 +12,7 @@ services:
       - key: PYTHON_VERSION
         value: 3.11.9
       - key: M45_CORS_ORIGINS
-        value: "*"
+        value: "https://m45-qc-frontend.onrender.com,http://localhost:3000,http://localhost:8088"
       - key: M45_FORCE_DEMO
         value: "0"
 
@@ -24,6 +24,9 @@ services:
     buildCommand: npm install && npm run build
     staticPublishPath: dist
     autoDeploy: true
+    envVars:
+      - key: VITE_API_URL
+        value: https://m45-qc-backend.onrender.com
     routes:
       - type: rewrite
         source: /*
